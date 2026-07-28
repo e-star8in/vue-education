@@ -4,6 +4,7 @@
     --color-primary-inverted: #000000;
     --color-bg-card: #272e37;
     --color-bg-main: #222831;
+    --color-placeholder: #3F4958;
     --gradient: linear-gradient(
             90.8deg,
             rgba(144, 217, 224, 0.9) 0.2%,
@@ -21,11 +22,24 @@
 
 body {
     font-family: var(--font), sans-serif;
+    font-size: 20px;
+    line-height: 1.4;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
     color: var(--color-primary);
     background-color: var(--color-bg);
     —webkit—font-smoothing: antialiased;
     text-rendering: optimizelegibility;
     font-synthesis: none;
     -moz-osx-font-smoothing: grayscale;
+
+    #app {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 }
