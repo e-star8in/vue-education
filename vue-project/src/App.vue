@@ -1,6 +1,10 @@
 <script setup>
-import Button from '@/components/Button.vue'
-import Input from "@/components/Input.vue";
+import Stats from "@/components/Stats.vue";
+import CitySelect from "@/components/CitySelect.vue";
+
+const log = (city) => {
+  console.log(city)
+}
 </script>
 
 <template>
@@ -48,9 +52,9 @@ import Input from "@/components/Input.vue";
     <div class="general">
       <div class="general__stats stats">
         <ul class="stats__list">
-          <li class="stats__item"><span class="stats__key">ВЛАЖНОСТЬ</span><span class="stats__value">90%</span></li>
-          <li class="stats__item"><span class="stats__key">ОСАДКИ</span><span class="stats__value">0%</span></li>
-          <li class="stats__item"><span class="stats__key">ВЕТЕР</span><span class="stats__value">3 м/ч</span></li>
+          <Stats label="Влажность" value="90%"/>
+          <Stats label="Осадки" value="0%"/>
+          <Stats label="Ветер" value="3 м/ч"/>
         </ul>
       </div>
       <div class="general__days days">
@@ -137,30 +141,7 @@ import Input from "@/components/Input.vue";
           </li>
         </ul>
       </div>
-      <div class="general__select select">
-        <Button class="button button--full-width" type="button">
-          <template #icon>
-            <svg fill="none" height="33" viewBox="0 0 33 33" width="33" xmlns="http://www.w3.org/2000/svg">
-              <path clip-rule="evenodd"
-                    d="M9.96875 13.75C9.96875 10.1429 12.8929 7.21875 16.5 7.21875C20.1071 7.21875 23.0313 10.1429 23.0313 13.75C23.0313 17.3571 20.1071 20.2812 16.5 20.2812C12.8929 20.2812 9.96875 17.3571 9.96875 13.75ZM16.5 9.28125C14.032 9.28125 12.0313 11.282 12.0313 13.75C12.0313 16.218 14.032 18.2188 16.5 18.2188C18.968 18.2188 20.9688 16.218 20.9688 13.75C20.9688 11.282 18.968 9.28125 16.5 9.28125Z"
-                    fill="white"
-                    fill-rule="evenodd"/>
-              <path clip-rule="evenodd"
-                    d="M4.846 12.1782C5.3332 6.26758 10.2724 1.71875 16.203 1.71875H16.797C22.7276 1.71875 27.6668 6.26758 28.154 12.1782C28.4157 15.3532 27.435 18.506 25.4183 20.9723L18.8278 29.0322C17.6247 30.5036 15.3753 30.5036 14.1722 29.0322L7.5817 20.9723C5.56505 18.506 4.58429 15.3532 4.846 12.1782ZM16.203 3.78125C11.3458 3.78125 7.30055 7.50678 6.90153 12.3476C6.68371 14.9901 7.49997 17.6141 9.17838 19.6667L15.7688 27.7267C16.1467 28.1888 16.8533 28.1888 17.2312 27.7267L23.8216 19.6667C25.5 17.6141 26.3163 14.9901 26.0985 12.3476C25.6995 7.50678 21.6542 3.78125 16.797 3.78125H16.203Z"
-                    fill="white"
-                    fill-rule="evenodd"/>
-            </svg>
-          </template>
-
-
-          Изменить город
-        </Button>
-
-        <div class="select__wrapper">
-          <Input id="" name="" placeholder="Введите город"></Input>
-          <Button type="submit">Сохранить</Button>
-        </div>
-      </div>
+      <CitySelect @select-city="log"/>
     </div>
   </main>
 </template>
@@ -276,7 +257,7 @@ import Input from "@/components/Input.vue";
     gap: 16px;
   }
 
-  &__key {
+  &__label {
     font-size: 28px;
     font-weight: 700;
     line-height: 1;
@@ -317,7 +298,7 @@ import Input from "@/components/Input.vue";
     background: var(--color-bg-card);
 
     &:hover {
-      border-color: var(--color-primary);
+      background: var(--color-bg-card-hover);
     }
 
     &.active {
@@ -342,15 +323,6 @@ import Input from "@/components/Input.vue";
   &__temperature {
     font-weight: 700;
     color: inherit;
-  }
-}
-
-.select {
-
-  &__wrapper {
-    display: flex;
-    align-items: center;
-    gap: 12px;
   }
 }
 </style>

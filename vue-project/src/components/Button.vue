@@ -4,9 +4,6 @@
 
 <template>
   <button class="button">
-    <div>
-      <slot name="icon"/>
-    </div>
     <slot/>
   </button>
 </template>

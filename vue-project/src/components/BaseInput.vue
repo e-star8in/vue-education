@@ -3,11 +3,12 @@
 </script>
 
 <template>
-  <input class="input" placeholder="placeholder" type="text">
+  <input class="input" placeholder="placeholder" type="text"/>
 </template>
 
 <style lang="scss" scoped>
 .input {
+  font-size: 18px;
   line-height: 1;
   width: 100%;
   height: 53px;
