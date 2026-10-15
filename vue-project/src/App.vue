@@ -167,7 +167,7 @@ const log = (city) => {
   justify-content: space-between;
   padding: 48px 32px 64px;
   border-radius: 25px;
-  background-image: url('../public/detail-bg.png');
+  background-image: url('../detail-bg.png');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
