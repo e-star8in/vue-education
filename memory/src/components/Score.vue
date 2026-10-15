@@ -24,7 +24,5 @@ const props = defineProps({score: {type: Number, default: 100}})
   border-radius: 50rem;
   background-color: var(--color-accent-muted);
   box-shadow: 0 0 4px 0 #00000026;
-
-
 }
 </style>

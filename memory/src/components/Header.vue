@@ -1,5 +1,9 @@
 <script setup>
 import Score from "@/components/Score.vue";
+import {ref} from "vue";
+
+const score = ref(0)
+
 </script>
 
 <template>
@@ -7,7 +11,7 @@ import Score from "@/components/Score.vue";
     <div class="container">
       <div class="header__wrapper">
         <a class="header__logo" href="/">Запомни слово</a>
-        <Score :score="111" class="header__score"/>
+        <Score :score=score class="header__score"/>
       </div>
     </div>
   </header>
