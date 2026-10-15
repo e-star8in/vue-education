@@ -1,8 +1,7 @@
 <script setup>
 import Score from "@/components/Score.vue";
-import {ref} from "vue";
 
-const score = ref(0)
+defineProps({score: {type: Number, default: 100}})
 
 </script>
 
@@ -11,7 +10,7 @@ const score = ref(0)
     <div class="container">
       <div class="header__wrapper">
         <a class="header__logo" href="/">Запомни слово</a>
-        <Score :score=score class="header__score"/>
+        <Score :score="score" class="header__score"/>
       </div>
     </div>
   </header>

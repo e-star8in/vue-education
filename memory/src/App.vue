@@ -4,7 +4,21 @@ import Header from "@/components/Header.vue";
 import Card from "@/components/Card.vue";
 import {ref} from "vue";
 
-const flip = ref(true)
+const score = ref(1)
+
+const cards = ref([
+  {word: 'example', translation: 'пример', state: 'closed', status: 'pending'},
+  {
+    word: 'simple',
+    translation: 'простой',
+    state: 'opened',
+    status: 'fail'
+  }, {
+    word: 'home',
+    translation: 'дом',
+    state: 'closed',
+    status: 'success'
+  }])
 
 const actionFlip = () => {
 }
@@ -12,16 +26,21 @@ const actionFlip = () => {
 </script>
 <template>
   <main class="main">
-    <Header/>
+    <Header :score="score"/>
 
     <section class="game">
       <div class="container">
         <div class="game__grid">
-
-          <Card :flip="flip" class="game__card" @flip-card="actionFlip"/>
-          <Card :flip="flip" class="game__card" @flip-card="actionFlip"/>
-          <Card :flip="flip" class="game__card" @flip-card="actionFlip"/>
-          <Card :flip="flip" class="game__card" @flip-card="actionFlip"/>
+          <Card
+              v-for="(card, i) in cards"
+              :key="i"
+              :state="card.state"
+              :status="card.status"
+              :translation="card.translation"
+              :word="card.word"
+              class="game__card"
+              @flip-card="actionFlip"
+          />
         </div>
       </div>
     </section>

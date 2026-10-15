@@ -3,20 +3,25 @@
 import IconSuccess from "@/icons/IconSuccess.vue";
 import ErrorButton from "@/components/ErrorButton.vue";
 import SuccessButton from "@/components/SuccessButton.vue";
-import {ref} from "vue";
 
-const props = defineProps({flip: {type: Boolean, default: true}, status: {type: Boolean, default: true}})
+const props = defineProps({
+  word: {type: String, default: ''},
+  translation: {type: String, default: ''},
+  state: {
+    type: String,
+    default: 'closed',
+    validator: v => ['closed', 'opened'].includes(v),
+  },
+  status: {
+    type: String,
+    default: 'pending',
+    validator: v => ['success', 'fail', 'pending'].includes(v),
+  },
+})
 const emit = defineEmits(['flip-card', 'change-status'])
 
-const cards = ref({
-  word: "example",
-  translation: "пример",
-  state: 'closed',
-  status: 'pending',
-})
-
 function flipCard() {
-  emit('flip-card', props.flip)
+  emit('flip-card', props.state)
 }
 
 function changeStatus() {
@@ -35,10 +40,11 @@ function changeStatus() {
         <!--        <IconError/>-->
         <IconSuccess/>
       </div>
-      <div class="card__label">{{ cards.word }}</div>
+      <div class="card__label">{{ props.word }}</div>
       <div class="card__action">
 
-        <button v-if="props.flip" class="card__flip" @click="flipCard">{{ props.flip ? 'Перевернуть' : 'Завершено' }}
+        <button v-if="props.state === 'closed'" class="card__flip" @click="flipCard">
+          {{ props.state === 'opened' ? 'Перевернуть' : 'Завершено' }}
         </button>
         <div v-else class="card__status" @click="changeStatus">
           <ErrorButton/>
