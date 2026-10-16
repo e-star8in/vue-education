@@ -7,17 +7,27 @@ import {ref} from "vue";
 const score = ref(1)
 
 const cards = ref([
-  {word: 'example', translation: 'пример', state: 'closed', status: 'pending'},
   {
-    word: 'simple',
-    translation: 'простой',
+    word: 'unadmitted',
+    translation: 'непризнанный',
+    state: 'closed',
+    status: 'pending'
+  }, {
+    word: 'camelcade',
+    translation: 'караван верблюдов',
+    state: 'opened',
+    status: 'pending'
+  },
+  {
+    word: 'car',
+    translation: 'автомобиль',
+    state: 'opened',
+    status: 'success'
+  }, {
+    word: 'свинец',
+    translation: 'свинец',
     state: 'opened',
     status: 'fail'
-  }, {
-    word: 'home',
-    translation: 'дом',
-    state: 'closed',
-    status: 'success'
   }])
 
 const actionFlip = () => {
@@ -34,6 +44,7 @@ const actionFlip = () => {
           <Card
               v-for="(card, i) in cards"
               :key="i"
+              :number="i+1"
               :state="card.state"
               :status="card.status"
               :translation="card.translation"

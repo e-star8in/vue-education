@@ -1,10 +1,13 @@
 <script setup>
+import {computed} from "vue";
 
 import IconSuccess from "@/icons/IconSuccess.vue";
+import IconError from "@/icons/IconError.vue";
 import ErrorButton from "@/components/ErrorButton.vue";
 import SuccessButton from "@/components/SuccessButton.vue";
 
 const props = defineProps({
+  number: {type: Number, default: 1},
   word: {type: String, default: ''},
   translation: {type: String, default: ''},
   state: {
@@ -19,6 +22,7 @@ const props = defineProps({
   },
 })
 const emit = defineEmits(['flip-card', 'change-status'])
+const formattedNumber = computed(() => String(props.number).padStart(2, '0'))
 
 function flipCard() {
   emit('flip-card', props.state)
@@ -34,22 +38,26 @@ function changeStatus() {
   <div class="card">
     <div class="card__wrapper">
       <div class="card__number">
-        <span>01</span>
+        <span>{{ formattedNumber }}</span>
       </div>
       <div class="card__result">
-        <!--        <IconError/>-->
-        <IconSuccess/>
+        <IconSuccess v-if="status === 'success'"/>
+        <IconError v-else-if="status === 'fail'"/>
+        <template v-else></template>
       </div>
       <div class="card__label">{{ props.word }}</div>
       <div class="card__action">
-
-        <button v-if="props.state === 'closed'" class="card__flip" @click="flipCard">
-          {{ props.state === 'opened' ? 'Перевернуть' : 'Завершено' }}
-        </button>
-        <div v-else class="card__status" @click="changeStatus">
-          <ErrorButton/>
-          <SuccessButton/>
+        <div v-if="state === 'opened'" class="card__status" @click="changeStatus">
+          <button v-if="status !== 'pending'" class="card__flip card__flip--end">Завершено</button>
+          <template v-else>
+            <ErrorButton/>
+            <SuccessButton/>
+          </template>
         </div>
+        <button v-else class="card__flip" @click="flipCard">
+          Перевернуть
+        </button>
+
       </div>
     </div>
   </div>
@@ -98,13 +106,14 @@ function changeStatus() {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2px;
+
     transform: translate(-50%, -50%);
     background-color: var(--color-primary-inverted);
 
     svg {
       width: 36px;
       height: 36px;
+      padding: 2px;
     }
   }
 
@@ -134,19 +143,26 @@ function changeStatus() {
   }
 
   &__flip {
+    font-size: 14px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
     text-transform: uppercase;
     border: none;
     outline: none;
     background-color: var(--color-primary-inverted);
     gap: 8px;
+
+    &--end {
+      cursor: default;
+    }
   }
 
   &__status {
     display: flex;
     align-items: center;
+    cursor: default;
     gap: 32px;
   }
 }
