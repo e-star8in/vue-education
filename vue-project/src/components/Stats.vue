@@ -1,8 +1,8 @@
 <script setup>
-const {label = "Не задан", value = "Не задан"} = defineProps(
+const {label = "Не задан", stat = "Не задан"} = defineProps(
     {
       label: String,
-      value: String,
+      stat: String,
     }
 )
 </script>
@@ -10,7 +10,7 @@ const {label = "Не задан", value = "Не задан"} = defineProps(
 <template>
   <li class="stats__item">
     <span class="stats__label">{{ label }}</span>
-    <span class="stats__value">{{ value }}</span>
+    <span class="stats__value">{{ stat }}</span>
   </li>
 </template>
 

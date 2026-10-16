@@ -11,6 +11,7 @@ const emit = defineEmits({
   }
 })
 
+let city = ref("Moscow")
 let isEdited = ref(false)
 
 const select = () => {
@@ -26,16 +27,14 @@ const edit = () => {
 
 <template>
   <div class="general__select select">
-    {{ isEdited }}
-    <Button class="button button--full-width" type="button" @click="edit()">
+    <div v-if="isEdited" class="select__wrapper">
+      <BaseInput id="" v-model="city" name="" placeholder="Введите город"></BaseInput>
+      <Button type="submit" @click="select()">Сохранить</Button>
+    </div>
+    <Button v-else class="button button--full-width" type="button" @click="edit()">
       <IconLocation/>
       Изменить город
     </Button>
-
-    <div class="select__wrapper">
-      <BaseInput id="" name="" placeholder="Введите город"></BaseInput>
-      <Button type="submit" @click="select()">Сохранить</Button>
-    </div>
   </div>
 </template>
 

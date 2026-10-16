@@ -1,10 +1,33 @@
 <script setup>
 import Stats from "@/components/Stats.vue";
 import CitySelect from "@/components/CitySelect.vue";
+import {computed, ref} from 'vue';
 
 const log = (city) => {
   console.log(city)
 }
+
+const data = ref({
+  humidity: 90,
+  rain: 10,
+  wind: 5
+})
+
+const dataModified = computed(() => {
+  return [
+    {
+      label: 'Влажность',
+      stat: data.value.humidity + '%',
+    }, {
+      label: 'Осадки',
+      stat: data.value.rain + '%',
+    }, {
+      label: 'Ветер',
+      stat: data.value.wind + ' м/ч',
+    }
+  ]
+})
+
 </script>
 
 <template>
@@ -52,9 +75,7 @@ const log = (city) => {
     <div class="general">
       <div class="general__stats stats">
         <ul class="stats__list">
-          <Stats label="Влажность" value="90%"/>
-          <Stats label="Осадки" value="0%"/>
-          <Stats label="Ветер" value="3 м/ч"/>
+          <Stats v-for="item in dataModified" :key="item.label" v-bind="item"/>
         </ul>
       </div>
       <div class="general__days days">
@@ -226,6 +247,7 @@ const log = (city) => {
 .general {
   display: flex;
   flex-direction: column;
+  min-width: 460px;
   margin: 22px 0;
   padding: 60px 50px;
   border-radius: 0 25px 25px 0;
