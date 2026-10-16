@@ -23,6 +23,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['flip-card', 'change-status'])
 const formattedNumber = computed(() => String(props.number).padStart(2, '0'))
+const currentWordState = computed(() => props.state === 'closed' ? props.word : props.translation)
 
 function flipCard() {
   emit('flip-card', props.state)
@@ -45,13 +46,13 @@ function changeStatus() {
         <IconError v-else-if="status === 'fail'"/>
         <template v-else></template>
       </div>
-      <div class="card__label">{{ props.word }}</div>
+      <div class="card__label">{{ currentWordState }}</div>
       <div class="card__action">
-        <div v-if="state === 'opened'" class="card__status" @click="changeStatus">
+        <div v-if="state === 'opened'" class="card__status">
           <button v-if="status !== 'pending'" class="card__flip card__flip--end">Завершено</button>
           <template v-else>
-            <ErrorButton/>
-            <SuccessButton/>
+            <ErrorButton @click="emit('change-status', 'fail')"/>
+            <SuccessButton @click="emit('change-status', 'success')"/>
           </template>
         </div>
         <button v-else class="card__flip" @click="flipCard">

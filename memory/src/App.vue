@@ -24,7 +24,7 @@ const cards = ref([
     state: 'opened',
     status: 'success'
   }, {
-    word: 'свинец',
+    word: 'lead',
     translation: 'свинец',
     state: 'opened',
     status: 'fail'
