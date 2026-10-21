@@ -2,34 +2,30 @@
 import BaseButton from "@/components/BaseButton.vue";
 import Header from "@/components/Header.vue";
 import Card from "@/components/Card.vue";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 
-const score = ref(1)
+const API_ENDPOINT = "http://localhost:8080/api";
 
-const cards = ref([
-  {
-    word: 'unadmitted',
-    translation: 'непризнанный',
-    state: 'closed',
-    status: 'pending'
-  }, {
-    word: 'camelcade',
-    translation: 'караван верблюдов',
-    state: 'opened',
-    status: 'pending'
-  },
-  {
-    word: 'car',
-    translation: 'автомобиль',
-    state: 'opened',
-    status: 'success'
-  }, {
-    word: 'lead',
-    translation: 'свинец',
-    state: 'opened',
-    status: 'fail'
-  }])
+let data = ref([])
+let error = ref(null)
+const score = ref(0)
 
+async function getWords() {
+  const res = await fetch(`${API_ENDPOINT}/random-words`)
+  if (res.status !== 200) {
+    error.value = await res.json()
+    data.value = null
+    return
+  }
+
+  data.value = await res.json()
+  error.value = null
+  console.log(data.value)
+}
+
+onMounted(() => {
+  getWords()
+})
 const actionFlip = () => {
 }
 
@@ -42,8 +38,8 @@ const actionFlip = () => {
       <div class="container">
         <div class="game__grid">
           <Card
-              v-for="(card, i) in cards"
-              :key="i"
+              v-for="(card, i) in data"
+              :key="card.word"
               :number="i+1"
               :state="card.state"
               :status="card.status"
