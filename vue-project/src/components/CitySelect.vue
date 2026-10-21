@@ -32,10 +32,21 @@ const edit = () => {
 <template>
   <div class="general__select select">
     <div v-if="isEdited" class="select__wrapper">
-      <BaseInput id="" v-model="city" name="" placeholder="Введите город" @keyup.enter="select()"></BaseInput>
+      <BaseInput
+          id=""
+          v-model="city"
+          v-focus
+          name=""
+          placeholder="Введите город"
+          @keyup.enter="select()"
+      ></BaseInput>
       <Button type="submit" @click="select()">Сохранить</Button>
     </div>
-    <Button v-else class="button button--full-width" type="button" @click="edit()">
+    <Button
+        v-else
+        class="button button--full-width"
+        type="button"
+        @click="edit()">
       <IconLocation/>
       Изменить город
     </Button>

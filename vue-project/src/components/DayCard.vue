@@ -2,19 +2,31 @@
 import IconCloud from "@/icons/IconCloud.vue";
 import IconSun from "@/icons/IconSun.vue";
 import IconRain from "@/icons/IconRain.vue";
+import {computed} from "vue";
 
-const {weatherCode, temperature, date} = defineProps({
+const {weatherCode, temperature, date, isActive} = defineProps({
   weatherCode: Number,
   temperature: Number,
-  date: Date
+  date: Date,
+  isActive: Boolean,
+})
+
+const iconColor = computed(() => {
+  return isActive ? 'var(--color-primary-inverted)' : 'var(--color-primary)'
 })
 </script>
 
 <template>
-  <li class="days__item day">
-    <IconCloud v-if="weatherCode === 1003" class="days__icon"/>
-    <IconSun v-if="weatherCode === 1000" class="days__icon"/>
-    <IconRain v-if="weatherCode === 1009" class="days__icon"/>
+  <li :class="{active: isActive}" class="days__item day">
+    <IconSun v-if="weatherCode <= 1003"
+             :color="iconColor"
+             class="days__icon"/>
+    <IconCloud v-if="weatherCode >= 1006 && weatherCode < 1063"
+               :color="iconColor"
+               class="days__icon"/>
+    <IconRain v-if="weatherCode >= 1063"
+              :color="iconColor"
+              class="days__icon"/>
     <span class="days__day-week">
       {{ date.toLocaleDateString("ru-RU", {weekday: "short"}) }}
     </span>
@@ -41,7 +53,6 @@ const {weatherCode, temperature, date} = defineProps({
     flex-direction: column;
     width: 100%;
     padding: 12px 6px;
-    transition: border-color 0.3s ease-in-out;
     color: var(--color-primary);
     border: 2px solid transparent;
     border-radius: 10px;

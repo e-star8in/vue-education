@@ -3,7 +3,10 @@ const data = defineModel({type: String, required: true, default: 'London'});
 </script>
 
 <template>
-  <input v-model="data" class="input" placeholder="placeholder" type="text"/>
+  <input v-model="data"
+class="input"
+placeholder="placeholder"
+type="text"/>
 </template>
 
 <style lang="scss" scoped>

@@ -5,7 +5,11 @@ const {color = "white", size = "55"} = defineProps({color: String, size: String}
 </script>
 
 <template>
-  <svg :height="size" :width="size" fill="none" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+  <svg :height="size"
+:width="size"
+fill="none"
+viewBox="0 0 50 50"
+xmlns="http://www.w3.org/2000/svg">
     <path
         :fill="color"
         d="M24.6354 0C25.5847 0 26.3542 0.769511 26.3542 1.71875V4.01042C26.3542 4.95966 25.5847 5.72917 24.6354 5.72917C23.6862 5.72917 22.9167 4.95966 22.9167 4.01042V1.71875C22.9167 0.769511 23.6862 0 24.6354 0Z"/>
