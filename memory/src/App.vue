@@ -11,16 +11,26 @@ let error = ref(null)
 const score = ref(0)
 
 async function getWords() {
-  const res = await fetch(`${API_ENDPOINT}/random-words`)
-  if (res.status !== 200) {
-    error.value = await res.json()
-    data.value = null
-    return
-  }
+  try {
+    const res = await fetch(`${API_ENDPOINT}/random-words`)
+    if (res.status !== 200) {
+      error.value = await res.json()
+      data.value = null
+      return
+    }
 
-  data.value = await res.json()
-  error.value = null
-  console.log(data.value)
+    data.value = await res.json()
+    error.value = null
+    data.value = data.value.map(item => ({
+      ...item, state: 'closed', status: 'pending'
+    }))
+    console.log(data.value)
+
+
+  } catch (e) {
+    error.value = e
+    data.value = null
+  }
 }
 
 onMounted(() => {
@@ -36,25 +46,31 @@ const actionFlip = () => {
 
     <section class="game">
       <div class="container">
-        <div class="game__grid">
-          <Card
-              v-for="(card, i) in data"
-              :key="card.word"
-              :number="i+1"
-              :state="card.state"
-              :status="card.status"
-              :translation="card.translation"
-              :word="card.word"
-              class="game__card"
-              @flip-card="actionFlip"
-          />
+        <div v-if="error">
+          <BaseButton>Произошла ошибка. <br> Перезапустить</BaseButton>
         </div>
+        <template v-else>
+          <div class="game__grid">
+            <Card
+                v-for="(card, i) in data"
+                :key="card.word"
+                :number="i+1"
+                :state="card.state"
+                :status="card.status"
+                :translation="card.translation"
+                :word="card.word"
+                class="game__card"
+                @flip-card="actionFlip"
+            />
+          </div>
+        </template>
       </div>
     </section>
 
     <section class="action">
       <div class="container">
         <div class="action__wrapper">
+
           <BaseButton>Начать игру</BaseButton>
         </div>
       </div>
