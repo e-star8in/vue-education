@@ -15,7 +15,7 @@ async function getWords() {
     const res = await fetch(`${API_ENDPOINT}/random-words`)
     if (res.status !== 200) {
       error.value = await res.json()
-      data.value = null
+      data.value = []
       return
     }
 
@@ -29,14 +29,19 @@ async function getWords() {
 
   } catch (e) {
     error.value = e
-    data.value = null
+    data.value = []
   }
 }
 
 onMounted(() => {
   getWords()
 })
-const actionFlip = () => {
+const actionFlip = (item) => {
+  data.value[item].state = data.value[item].state === 'closed' ? 'opened' : 'closed'
+}
+
+const actionChangeStatus = (status, i) => {
+  data.value[i].state = status
 }
 
 </script>
@@ -47,7 +52,7 @@ const actionFlip = () => {
     <section class="game">
       <div class="container">
         <div v-if="error">
-          <BaseButton>Произошла ошибка. <br> Перезапустить</BaseButton>
+          <BaseButton @click="getWords">Произошла ошибка. <br> Перезапустить</BaseButton>
         </div>
         <template v-else>
           <div class="game__grid">
@@ -60,7 +65,8 @@ const actionFlip = () => {
                 :translation="card.translation"
                 :word="card.word"
                 class="game__card"
-                @flip-card="actionFlip"
+                @flip-card="actionFlip(i)"
+                @change-status="actionChangeStatus(status, i)"
             />
           </div>
         </template>
@@ -70,7 +76,6 @@ const actionFlip = () => {
     <section class="action">
       <div class="container">
         <div class="action__wrapper">
-
           <BaseButton>Начать игру</BaseButton>
         </div>
       </div>

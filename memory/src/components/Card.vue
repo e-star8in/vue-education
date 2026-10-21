@@ -29,9 +29,9 @@ function flipCard() {
   emit('flip-card', props.state)
 }
 
-function changeStatus() {
-  emit('change-status', props.status)
-}
+// function changeStatus() {
+//   emit('change-status', props.status)
+// }
 
 </script>
 
@@ -125,6 +125,7 @@ function changeStatus() {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    text-align: center;
     text-transform: lowercase;
     color: var(--color-primary);
   }
