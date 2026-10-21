@@ -3,20 +3,24 @@
 import IconLocation from "../icons/IconLocation.vue";
 import BaseInput from "./BaseInput.vue";
 import Button from "./Button.vue";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 
 const emit = defineEmits({
-  "select-city": (payload) => {
-    return !!payload && typeof payload === "number"
+  "selectCity": (payload) => {
+    return !!payload && typeof payload !== "number"
   }
 })
 
 let city = ref("Moscow")
 let isEdited = ref(false)
 
+onMounted(() => {
+  emit("selectCity", city.value)
+})
+
 const select = () => {
   isEdited.value = false
-  emit('select-city', 'London')
+  emit("selectCity", city.value)
 }
 
 const edit = () => {
@@ -28,7 +32,7 @@ const edit = () => {
 <template>
   <div class="general__select select">
     <div v-if="isEdited" class="select__wrapper">
-      <BaseInput id="" v-model="city" name="" placeholder="Введите город"></BaseInput>
+      <BaseInput id="" v-model="city" name="" placeholder="Введите город" @keyup.enter="select()"></BaseInput>
       <Button type="submit" @click="select()">Сохранить</Button>
     </div>
     <Button v-else class="button button--full-width" type="button" @click="edit()">
@@ -40,7 +44,6 @@ const edit = () => {
 
 <style lang="scss" scoped>
 .select {
-
   &__wrapper {
     display: flex;
     align-items: center;

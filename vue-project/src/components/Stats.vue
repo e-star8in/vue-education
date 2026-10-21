@@ -10,7 +10,7 @@ const {label = "Не задан", stat = "Не задан"} = defineProps(
 <template>
   <li class="stats__item">
     <span class="stats__label">{{ label }}</span>
-    <span class="stats__value">{{ stat }}</span>
+    <span class="stats__stat">{{ stat }}</span>
   </li>
 </template>
 
@@ -40,7 +40,7 @@ const {label = "Не задан", stat = "Не задан"} = defineProps(
     color: var(--color-primary);
   }
 
-  &__value {
+  &__stat {
     font-size: 28px;
     font-weight: 500;
     line-height: 1;
