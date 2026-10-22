@@ -62,7 +62,7 @@ const statData = computed(() => {
         </ul>
       </div>
     </template>
-    <CitySelect @select-city="city => emit('select-city', city)"/>
+    <CitySelect/>
   </div>
 </template>
 

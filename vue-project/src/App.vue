@@ -1,16 +1,23 @@
 <script setup>
-import {ref} from "vue";
+import {onMounted, provide, ref, watch} from "vue";
 import IconSun from "@/icons/IconSun.vue";
 import IconLocation from "@/icons/IconLocation.vue";
 import PaneRight from "@/components/PaneRight.vue";
 
 const API_ENDPOINT = "https://api.weatherapi.com/v1";
 
-
+let city = ref("Moscow")
 let data = ref(null)
 let error = ref(null)
 let activeDay = ref(0)
 
+provide("city", city)
+
+watch(city, (city) => getCity(city.value))
+
+onMounted(() => {
+  getCity(city.value)
+})
 
 async function getCity(city) {
   const params = new URLSearchParams({
@@ -55,7 +62,6 @@ async function getCity(city) {
         :data
         :error
         @select-index="(index) => activeDay = index"
-        @select-city="getCity"
     />
   </main>
 </template>
