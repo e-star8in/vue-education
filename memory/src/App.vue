@@ -64,10 +64,10 @@ const actionFlip = (item) => {
   data.value[item].state = data.value[item].state === 'closed' ? 'opened' : 'closed'
 }
 
-const actionChangeStatus = (i) => {
+const actionChangeStatus = (i, status) => {
 
   const isFake = data.value[i].isFake
-  const answer = data.value[i].status === 'success'
+  const answer = status === 'success'
   console.log(answer)
   if ((answer && !isFake) || (!answer && isFake)) {
     score.value += 10
