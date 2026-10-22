@@ -20,6 +20,10 @@ const props = defineProps({
     default: 'pending',
     validator: v => ['success', 'fail', 'pending'].includes(v),
   },
+  isFake: {
+    type: Boolean,
+    default: false,
+  }
 })
 const emit = defineEmits(['flip-card', 'change-status'])
 const formattedNumber = computed(() => String(props.number).padStart(2, '0'))
@@ -28,10 +32,6 @@ const currentWordState = computed(() => props.state === 'closed' ? props.word : 
 function flipCard() {
   emit('flip-card', props.state)
 }
-
-// function changeStatus() {
-//   emit('change-status', props.status)
-// }
 
 </script>
 
@@ -48,12 +48,10 @@ function flipCard() {
       </div>
       <div class="card__label">{{ currentWordState }}</div>
       <div class="card__action">
-        <div v-if="state === 'opened'" class="card__status">
-          <button v-if="status !== 'pending'" class="card__flip card__flip--end">Завершено</button>
-          <template v-else>
-            <ErrorButton @click="emit('change-status', 'fail')"/>
-            <SuccessButton @click="emit('change-status', 'success')"/>
-          </template>
+        <button v-if="status !== 'pending' && state === 'opened'" class="card__flip card__flip--end">Завершено</button>
+        <div v-else-if="state === 'opened'" class="card__status">
+          <ErrorButton @click="emit('change-status', 'fail')"/>
+          <SuccessButton @click="emit('change-status', 'success')"/>
         </div>
         <button v-else class="card__flip" @click="flipCard">
           Перевернуть
