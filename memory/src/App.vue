@@ -2,7 +2,7 @@
 import BaseButton from "@/components/BaseButton.vue";
 import Header from "@/components/Header.vue";
 import Card from "@/components/Card.vue";
-import {onMounted, ref} from "vue";
+import {ref} from "vue";
 
 const API_ENDPOINT = "http://localhost:8080/api";
 
@@ -10,7 +10,7 @@ let data = ref([])
 let error = ref(null)
 const score = ref(0)
 
-function getRandomUnique(count = 3, min = 0, max = 9) {
+function getRandomUnique(count = 3, min = 0, max = 3) {
   const range = max - min + 1
   if (count > range) throw new Error('count больше диапазона')
   const set = new Set()
@@ -19,6 +19,7 @@ function getRandomUnique(count = 3, min = 0, max = 9) {
   }
   return [...set]
 }
+
 
 function rotateTranslations(cards, indexes) {
   const donors = indexes.map(i => cards[i].translation)
@@ -48,7 +49,11 @@ async function getWords() {
       ...item, state: 'closed', status: 'pending', isFake: false
     }))
 
-    data.value = rotateTranslations(data.value, getRandomUnique())
+    const maxLength = data.value.length - 1
+
+    data.value = rotateTranslations(data.value, getRandomUnique(3, 0, maxLength))
+
+    console.log(getRandomUnique(3, 0, maxLength))
   } catch (e) {
     error.value = e
     data.value = []
@@ -59,17 +64,18 @@ const actionFlip = (item) => {
   data.value[item].state = data.value[item].state === 'closed' ? 'opened' : 'closed'
 }
 
-const actionChangeStatus = (i, status) => {
+const actionChangeStatus = (i) => {
 
   const isFake = data.value[i].isFake
-  if (status === 'success' && !isFake) {
+  const answer = data.value[i].status === 'success'
+  console.log(answer)
+  if ((answer && !isFake) || (!answer && isFake)) {
     score.value += 10
     data.value[i].status = 'success'
   } else {
     score.value -= 4
     data.value[i].status = 'fail'
   }
-  console.log(status)
 }
 
 const startGame = () => {
@@ -110,7 +116,7 @@ const startGame = () => {
     <section class="action">
       <div class="container">
         <div class="action__wrapper">
-          <BaseButton @click="startGame">Начать игру</BaseButton>
+          <BaseButton @click="startGame">Начать {{ data.length ? "заново" : "игру" }}</BaseButton>
         </div>
       </div>
     </section>
