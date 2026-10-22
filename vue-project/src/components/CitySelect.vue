@@ -4,9 +4,10 @@ import IconLocation from "../icons/IconLocation.vue";
 import BaseInput from "./BaseInput.vue";
 import Button from "./Button.vue";
 import {inject, ref} from "vue";
+import {cityProvide} from "@/constants.js";
 
 
-const city = inject("city")
+const city = inject(cityProvide)
 const inputValue = ref(city.value)
 
 let isEdited = ref(false)
